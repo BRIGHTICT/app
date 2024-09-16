@@ -1,132 +1,98 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <title>NID SERVICE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Data Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f4f4f4; }
+        form { margin-bottom: 20px; }
+        .container { width: 80%; margin: 0 auto; }
+        .button { margin-top: 20px; padding: 10px 20px; border: none; background-color: #007BFF; color: #fff; cursor: pointer; }
+        .button:hover { background-color: #0056b3; }
+    </style>
 </head>
-
-<style>
-body{
-  background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-  text-align:center;
-  border: dotted 5px;
- animation-duration: 5s;
-}
-  
-  div{
-  background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-  text-align:center;
-  border: outside 5px;
- animation-duration: 5s;
-}
-@keyframes slide {
-    0% {
-        transform: translateX(-25%);
-    }
-    100% {
-        transform: translateX(25%);
-    }
-}
-
-.hidden-marquee {
-  display: none;}
-
-        div {
-            color: Black;
-            background-color:FF0000;
-            margin: 2px;
-            font-size: 25px;
-        }
-
-
-h1{
-  background-color:green;
-}
-    marquee{
-        background-color: azure;
-        font-size: 20px;
-    }
-    font{
-        font-size: 20px;
-        border-color: aqua;
-        color: white;
-        background-color: red;
-    }
-    dl{
-        text-align: left;
-        background-color: azure;
-    }
-    dt{
-        color:white;
-        background-color: black;
-    }
-
-img.circle{
-        border-radius: 50%;
-    }
-
- @keyframes imageAnimation {
-            0% { opacity: 0; transform: scale(0.8); }
-            33% { opacity: 1; transform: scale(1); }
-            66% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0; transform: scale(0.8); }
-        }
-
-        .image-container {
-            width: 100%;
-            height: 100px;
-            overflow: hidden;
-        }
-
-        .image {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            animation: imageAnimation 6s infinite;
-        }
-		mgdcNotice{
-		background-color:pink; 
-		text-align:center;
-		align: center;
-		}
-		.notice {
-background-color:red; }
-</style>
 <body>
-
-<div class="image-container">
-        <img class="image" src="https://admin.edu360.com.bd/api/get_file/frontendPhoto/1719932068887_IMG-20240625-WA0017.jpg" alt="Image 1"> 
-        <img class="image" src="https://admin.edu360.com.bd/api/get_file/frontendPhoto/1719932068887_IMG-20240625-WA0017.jpg" alt="Image 2">
-        <img class="image" src="https://admin.edu360.com.bd/api/get_file/frontendPhoto/1719932068887_IMG-20240625-WA0017.jpg" alt="Image 3">
+    <div class="container">
+        <h1>Visitor Information Form</h1>
+        <form id="visitorForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required><br><br>
+            <label for="mobile">Mobile Number:</label>
+            <input type="text" id="mobile" required><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br><br>
+            <label for="country">Country:</label>
+            <input type="text" id="country" required><br><br>
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+        
+        <h2>Visitor Data</h2>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Mobile Number</th>
+                    <th>Email</th>
+                    <th>Country</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be appended here -->
+            </tbody>
+        </table>
     </div>
 
+    <script>
+        function fetchData() {
+            fetch('fetch_data.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#dataTable tbody');
+                    tableBody.innerHTML = ''; // Clear existing data
+                    data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${row.name}</td>
+                            <td>${row.mobile}</td>
+                            <td>${row.email}</td>
+                            <td>${row.country}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
 
-<brightnotice> 
- <marquee behavior="alternate" scrollamount="1"  class="hidden-marquee"> ব্রাইট আইটির সকল নোটিশ এখানে দেখুন। </marquee>
- 
-</brightnotice> <br/>
+        function submitForm() {
+            const name = document.getElementById('name').value;
+            const mobile = document.getElementById('mobile').value;
+            const email = document.getElementById('email').value;
+            const country = document.getElementById('country').value;
+            
+            if (name && mobile && email && country) {
+                fetch('submit_data.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `name=${encodeURIComponent(name)}&mobile=${encodeURIComponent(mobile)}&email=${encodeURIComponent(email)}&country=${encodeURIComponent(country)}`
+                })
+                .then(response => response.text())
+                .then(result => {
+                    console.log('Success:', result);
+                    fetchData(); // Refresh the table with new data
+                    document.getElementById('visitorForm').reset();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
 
-
-<mgdcNotice>
-    <font> মহেশপুর সরকারি ডিগ্রি কলেজের লাইভ নোটিশ</font> </br>
-	 <marquee > সর্বশেষ নোটিশ- 
-০২৩-২০২৪ শিক্ষাবর্ষে ডিগ্রী (পাস) ভর্তির প্রাথমিক আবেদনের সময় বৃদ্ধির বিজ্ঞপ্তি </marquee>
-	 
-    <marquee class="Notice" direction="up" width="100%" height="25%" scrollamount="3" >
-	
-<a href="http://mgdc.edu.bd/Content/Images/Notice/50_Degree%20Pass.pdf">০২৩-২০২৪ শিক্ষাবর্ষে ডিগ্রী (পাস) ভর্তির প্রাথমিক আবেদনের সময় বৃদ্ধির বিজ্ঞপ্তি
-</a> <br/><br/>
-
-	<a href="http://mgdc.edu.bd/Content/Images/Notice/49_Untitled-1.pdf">
-২০২৩-২৪ শিক্ষাবর্ষের দ্বাদশ শ্রেণির শিক্ষার্থীদের ভর্তি ও সেশনচার্জ জমাদান সংক্রান্ত বিজ্ঞপ্তি </a> <br/><br/>
-	<a href="http://mgdc.edu.bd/Content/Images/Notice/47_454470673_1579970779252552_2320655726683172556_n.jpg"> ২০২৪-২০২৫ শিক্ষাবর্ষের একাদশ শ্রেণির ওরিয়েন্টেশন ক্লাস সংক্রান্ত নোটিশ</a> <br/><br/>
-	<a href="http://mgdc.edu.bd/Content/Images/Notice/46_00_20240815161015_690.pdf"> অনুষ্ঠিতব্য ‘এইচএসসি-২০২৪’  আগামী ১১-০৯-২০২৪ খ্রি. তারিখ হতে নতুন সময়সূচি অনুযায়ী পরীক্ষা যথারীতি চলবে।</a> <br/><br/>
-		<a href="http://mgdc.edu.bd/Content/Images/Notice/41_Untitled-1.pdf"> বার্ষিক পরীক্ষা-২০২৪ এর ফলাফল প্রকাশ সংক্রান্ত বিজ্ঞপ্তি</a> <br/><br/>
-	
-	</marquee><br/>
-</mgdcNotice><hr>
-
-
+        // Fetch data when the page loads
+        window.onload = fetchData;
+    </script>
 </body>
 </html>
