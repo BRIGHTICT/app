@@ -44,6 +44,17 @@
         </div>
     </div>
     
+<script>
+    // ডান-ক্লিক নিষ্ক্রিয় করুন
+    document.addEventListener('contextmenu', event => event.preventDefault());
 
+    // Inspect নিষ্ক্রিয় করার চেষ্টা
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.key === 'u' || e.key === 'i' || e.key === 'c')) {
+            return false;
+        }
+    };
+
+</script>
 </body>
 </html>
