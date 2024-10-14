@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রশ্ন ও উত্তর সংরক্ষণ</title>
+ <link rel="stylesheet" href="mcq.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>প্রশ্ন ও উত্তর সংরক্ষণ যোগ করুন</h1>
+
+    <div id="nameSection">
+        <form class="name-form" id="nameForm">
+            <input type="text" id="chapterName" placeholder="অধ্যারের নাম" required>
+            <input type="text" id="entryName" placeholder="ডাটা এন্ট্রি কারীর নাম" required>
+            <button type="submit">সংরক্ষণ করুন</button>
+        </form>
+    </div>
+
+    <form id="questionForm" style="display: none;">
+        <textarea id="questionText" placeholder="Type Question" required></textarea><br/>
+        
+        <input type="text" id="answer1" placeholder="Option1" required>
+        <input type="text" id="answer2" placeholder="Option2" required><br/>
+        <input type="text" id="answer3" placeholder="Option3" required>
+        <input type="text" id="answer4" placeholder="Option4" required><br/>
+        
+        <select id="correctAnswer" required>
+            <option value="">Select correct Ans</option>
+            <option value="1">Option1</option>
+            <option value="2">Option2</option>
+            <option value="3">Option3</option>
+            <option value="4">Option4</option>
+        </select><br/>
+
+        <button type="submit">Data Save</button> <br/> 
+		মনে রাখবেন প্রশ্ন যোগ করা শেষে whatsapp এ মেসেস না করলে আপনার প্রশ্ন এই অ‌্যাপ্স এ যোগ হবে না।
+    </form>
+
+    <div class="info" id="infoDisplay" style="display:none;"></div>
+
+    <table id="questionTable">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Option1</th>
+                <th>Option1</th>
+                <th>Option1</th>
+                <th>Option1</th>
+                <th> Answer</th>
+                <th> Data Entry: </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- প্রশ্ন ও উত্তরের তথ্য এখানে দেখানো হবে -->
+        </tbody>
+    </table>
+
+    <button class="copy-button" onclick="copyTable()">Code Copy</button>
+    <button class="reset-button" onclick="resetData()">Reset</button>
+    <button class="send-whatsapp" onclick="copyAndSendWhatsApp()">Send Message</button>
+</div>
+
+<script>
+    const questionForm = document.getElementById('questionForm');
+    const questionTableBody = document.querySelector('#questionTable tbody');
+    const nameForm = document.getElementById('nameForm');
+    const nameSection = document.getElementById('nameSection');
+    const infoDisplay = document.getElementById('infoDisplay');
+
+    let lastCopiedText = '';
+    let chapterName = '';
+    let entryName = '';
+
+    window.onload = function() {
+        const savedData = JSON.parse(localStorage.getItem('questionsData'));
+        chapterName = localStorage.getItem('chapterName');
+        entryName = localStorage.getItem('entryName');
+
+        if (chapterName && entryName) {
+            document.getElementById('chapterName').value = chapterName;
+            document.getElementById('entryName').value = entryName;
+            nameSection.style.display = 'none';
+            questionForm.style.display = 'block';
+            infoDisplay.style.display = 'block';
+            infoDisplay.innerText = `অধ্যরের নাম: ${chapterName} | ডাটা এন্ট্রি কারীর নাম: ${entryName}`;
+        }
+
+        if (savedData) {
+            savedData.forEach(data => addRowToTable(data));
+        }
+    };
+
+    nameForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        chapterName = document.getElementById('chapterName').value;
+        entryName = document.getElementById('entryName').value;
+
+        localStorage.setItem('chapterName', chapterName);
+        localStorage.setItem('entryName', entryName);
+
+        nameSection.style.display = 'none';
+        questionForm.style.display = 'block';
+        infoDisplay.style.display = 'block';
+        infoDisplay.innerText = `অধ্যরের নাম: ${chapterName} | ডাটা এন্ট্রি কারীর নাম: ${entryName}`;
+    });
+
+    questionForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const question = document.getElementById('questionText').value;
+        const answer1 = document.getElementById('answer1').value;
+        const answer2 = document.getElementById('answer2').value;
+        const answer3 = document.getElementById('answer3').value;
+        const answer4 = document.getElementById('answer4').value;
+        const correctAnswerIndex = document.getElementById('correctAnswer').value;
+
+        let correctAnswer = '';
+        switch (correctAnswerIndex) {
+            case '1':
+                correctAnswer = answer1;
+                break;
+            case '2':
+                correctAnswer = answer2;
+                break;
+            case '3':
+                correctAnswer = answer3;
+                break;
+            case '4':
+                correctAnswer = answer4;
+                break;
+        }
+
+        const questionData = {
+            question: question,
+            answers: [answer1, answer2, answer3, answer4],
+            correct: correctAnswer,
+            author: `প্রশ্ন এন্টিকারী: ${entryName}`
+        };
+
+        const existingData = JSON.parse(localStorage.getItem('questionsData')) || [];
+        existingData.push(questionData);
+        localStorage.setItem('questionsData', JSON.stringify(existingData));
+
+        addRowToTable(questionData);
+        questionForm.reset();
+    });
+
+    function addRowToTable(data) {
+        const newRow = questionTableBody.insertRow();
+        newRow.insertCell(0).innerText = data.question;
+        newRow.insertCell(1).innerText = data.answers[0];
+        newRow.insertCell(2).innerText = data.answers[1];
+        newRow.insertCell(3).innerText = data.answers[2];
+        newRow.insertCell(4).innerText = data.answers[3];
+        newRow.insertCell(5).innerText = data.correct;
+        newRow.insertCell(6).innerText = data.author; // লেখকের নাম
+    }
+
+    function copyTable() {
+        let textToCopy = '';
+        const rows = questionTableBody.rows;
+
+        for (let row of rows) {
+            const questionData = {
+                question: row.cells[0].innerText,
+                answers: [
+                    row.cells[1].innerText,
+                    row.cells[2].innerText,
+                    row.cells[3].innerText,
+                    row.cells[4].innerText
+                ],
+                correct: row.cells[5].innerText,
+                author: row.cells[6].innerText
+            };
+            textToCopy += JSON.stringify(questionData).replace(/"(\w+)":/g, '$1:') + ',\n';
+        }
+
+        if (textToCopy) {
+            textToCopy = textToCopy.slice(0, -2);
+            textToCopy = '[\n' + textToCopy + '\n]';
+            lastCopiedText = textToCopy; // সঞ্চিত করা হচ্ছে
+        }
+
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => {
+                alert('প্রশ্ন ও উত্তরগুলি JSON ফরম্যাটে কপি করা হয়েছে!');
+            })
+            .catch(err => {
+                alert('কপি করতে সমস্যা হয়েছে!');
+            });
+    }
+
+    function resetData() {
+        localStorage.removeItem('questionsData');
+        localStorage.removeItem('chapterName');
+        localStorage.removeItem('entryName');
+        questionTableBody.innerHTML = '';
+        nameSection.style.display = 'block';
+        questionForm.style.display = 'none';
+        infoDisplay.style.display = 'none';
+        alert('সকল তথ্য রিসেট করা হয়েছে!');
+    }
+
+    function copyAndSendWhatsApp() {
+        copyTable(); // JSON কপি করুন
+        const phoneNumber = '+8801401421440';
+        const message = `অধ্যারের নাম: ${chapterName}\nডাটা এন্ট্রি কারীর নাম: ${entryName}\n\n${lastCopiedText || "কোন তথ্য সংরক্ষিত নেই"}`;
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+        window.open(whatsappURL, '_blank');
+    }
+	
+	
+	   document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Inspect 
+    document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.key === 'u' || e.key === 'i' || e.key === 'c')) {
+            return false;
+        }
+    };
+	
+</script>
+
+</body>
+</html>
