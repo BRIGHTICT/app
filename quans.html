@@ -13,13 +13,10 @@
 <form id="qaForm">
     <label for="qaInput">প্রশ্ন ও উত্তর লিখুন:</label><br>
     <textarea id="qaInput" name="qaInput" rows="10" required></textarea><br>
-
     <button type="submit">জমা দিন</button>
     <button type="button" id="resetButton">রিসেট</button>
-  <button id="copyButton">কোড কপি করুন</button>
+    <button id="copyButton">কোড কপি করুন</button>
 </form>
-
-
 
 <h2>সংরক্ষিত প্রশ্ন ও উত্তর</h2>
 <div id="savedData"></div>
@@ -50,7 +47,7 @@
         const paragraphs = qaInput.split('\n').filter(p => p.trim() !== '');
 
         const savedDataDiv = document.getElementById('savedData');
-        let previousParagraph = ''; // পূর্ববর্তী প্যারাগ্রাফ সংরক্ষণ করতে
+        let previousParagraph = '';
 
         paragraphs.forEach(paragraph => {
             const trimmedParagraph = paragraph.trim();
@@ -85,36 +82,11 @@
         document.getElementById('savedData').innerHTML = ''; // পেজ থেকে তথ্য মুছুন
     };
 
-    document.getElementById('sendEmailButton').onclick = function() {
-        const savedDataDiv = document.getElementById('savedData');
-        let contentToSend = '';
-        Array.from(savedDataDiv.children).forEach(div => {
-            contentToSend += div.innerText + '\n';  
-        });
-
-        const email = 'info.brighta2i@gmail.com';
-        const subject = 'সংরক্ষিত প্রশ্ন ও উত্তর';
-        const body = encodeURIComponent(contentToSend);
-
-        // মেইল পাঠানোর জন্য নতুন ট্যাব খুলুন
-        window.open(`mailto:${email}?subject=${subject}&body=${body}`); 
-
-        // কোড কপি করা
-        const tempInput = document.createElement('textarea');
-        tempInput.value = contentToSend;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-
-        alert('সব প্রশ্ন ও উত্তর কপি হয়েছে এবং মেইল পেজে লোড হয়েছে!');
-    };
-
     document.getElementById('copyButton').onclick = function() {
         const savedDataDiv = document.getElementById('savedData');
         let contentToCopy = '';
         Array.from(savedDataDiv.children).forEach(div => {
-            contentToCopy += div.outerHTML;  
+            contentToCopy += div.outerHTML + '\n';  // .outerHTML ব্যবহার করা হয়েছে
         });
         const tempInput = document.createElement('textarea');
         tempInput.value = contentToCopy;
