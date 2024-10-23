@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT SEBA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .banner {
+            width: 100%;
+            height: auto;
+        }
+
+        .contact-info, .social-links, .cta, .signup, .services {
+            background: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .map {
+            margin: 20px auto;
+        }
+
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .download-link {
+            background: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px auto;
+            display: inline-block;
+        }
+
+        .services ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .services li {
+            background: #e7f3fe;
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            position: relative;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .services li:hover {
+            transform: scale(1.05);
+        }
+
+        .services li::before {
+            content: "✓"; 
+            color: #007BFF; 
+            position: absolute;
+            left: 10px; 
+            top: 50%;
+            transform: translateY(-50%); 
+            font-size: 20px; 
+        }
+
+        .description {
+            display: none;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img width="100%" src="https://scontent.fjsr8-1.fna.fbcdn.net/v/t39.30808-6/374693850_247678038247238_8718877478836905265_n.jpg?stp=dst-jpg_s960x960&_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=2hhv7NRZAXoQ7kNvgE-KK0I&_nc_zt=23&_nc_ht=scontent.fjsr8-1.fna&_nc_gid=ACvZpIc959NFk16YOaBmJHN&oh=00_AYAFV7GZ0qBLcnpdAaCzeNeeL2HOtHShgsQXDfTk_7B8rw&oe=671ED922" alt="কোম্পানির ব্যানার" class="banner">
+        <h1>বিট সেবাই আপনাকে স্বাগতম</h1>
+        <p>"আপনার দক্ষতা, আমাদের প্রশিক্ষণ! <br/>
+প্রযুক্তির সাথে তাল মিলিয়ে চলুন, <br/>
+আমাদের প্রশিক্ষণে আত্মবিশ্বাস গড়ুন!"</p>
+    </header>
+
+    <section class="cta">
+        <h2>এইচএসসি পরীক্ষার্থীদের সহায়ক অ্যাপ্স</h2>
+        <p>"আপনার প্রস্তুতির সঙ্গী—সফলতার গ্যারান্টি! <br/>
+প্রতি প্রশ্নে জ্ঞান অর্জন করুন, <br/>
+এইচএসসি পরীক্ষায় সাফল্য নিশ্চিত করুন!"- ব্রাইট আই.টি </p>
+       
+        <a href="https://otp.li/brightit" class="download-link">অ্যাপ ডাউনলোড করুন</a>
+    </section>
+
+    
+
+    <section class="services">
+        <h2>আমাদের সেবা</h2>
+        <ul>
+            <li onclick="toggleDescription(this)">
+				কম্পিউটার ট্রেনিং ও সার্টিফিকেট প্রদান
+                <div class="description"> আমাদের রয়েছে কম্পিউটার ল্যাব। যেখানে ৩ ও ৬ মাস মেয়াদী ব্যসিক কম্পিউটার প্রশিক্ষন প্রদান করা হয়। এবং প্রশিক্ষন শেষে কারিগরি বোর্ডে সার্টিফিকেট প্রদান করা হয়।  </div>
+            </li>
+            <li onclick="toggleDescription(this)">
+                আই.সি.টি কোচিং সেন্টার
+                <div class="description"> আমাদের রয়েছে আই.সি.টি কোচিং সেন্টার । ২০১৬ সাল থেকে বর্তমান পর্যন্ত সেরা রেজাল্ট এর সাথে একাদ্বশ ও দ্বাদশ শ্রেনীর শিক্ষার্থীদের পড়ানো হয়।/<div>
+            </li>
+            <li onclick="toggleDescription(this)">
+                চাকুরীর আবেদন 
+                <div class="description"> আমাদের রয়েছে ১০ বছরের ও বেশি কাজের অভিজ্ঞতা সম্পূর্ণ কম্পউটার ম্যান। যারা নির্ভুলভাবে চাকুরীর আবেদন সম্পূর্ণ করে থাকে।</div>
+            </li>
+            <li onclick="toggleDescription(this)">
+                ভর্তি ফরম পূরন
+                <div class="description"> বিভিন্ন স্কুল, কলেজ, ও  ভার্সিটিতে ভর্তি ফরম পূরুন করা হয়  </div>
+            </li>
+            <li onclick="toggleDescription(this)">
+                টাইপিং
+                <div class="description"> আপনার যে কোন ধরনের টাইপিং দ্রুত সময়ে সমাধানের এর জন্য আমাদের প্রতিষ্ঠানে যোগাযোগ করুন। আমরা বিভিন্ন স্কুল কলেজের প্রশ্ন গোপনীয় ভাবে ডেলিভারী করে থাকি। </div>
+            </li>
+            <li onclick="toggleDescription(this)">
+               ফটোকপি ও পিডিএফ প্রিন্ট
+                <div class="description"> যে কোন ধরনের পিডিএফ প্রিন্ট করা হয় ফটোকপির দামে। </div>
+            </li>
+        </ul>
+    </section>
+	  <section class="social-links">
+        <h2>আমাদের সাথে যুক্ত হোন</h2>
+        <a href="https://wa.me/+8801401421440" target="_blank" class="btn">WhatsApp</a>
+        <a href="https://www.facebook.com/brightstudio.e" target="_blank" class="btn">Facebook</a>
+    </section>
+
+	<section class="contact-info">
+        <h2>যোগাযোগ করুন</h2>
+        <p><strong>মোবাইল নম্বর:</strong> 01401421440 অথবা 01933495589 </p>
+        <p><strong>ইমেইল:</strong> brightstudio.e@gmail.com</p>
+        <p><strong>লোকেশন:</strong> ব্রাইট স্টুডিও এন্ড ই-সেবা,<br/> মহেশপুর সরকারি ডিগ্রি কলেজ রোড, <br/>মহেশপুর,ঝিনিইদহ।</p>
+        
+    </section>
+	
+	
+
+    <footer>
+        <p>&copy; 2016-2024 BRIGHT IT </p>
+    </footer>
+
+    <script>
+        function toggleDescription(selectedLi) {
+           
+            const descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(description => {
+                description.style.display = 'none';
+            });
+
+        
+            const description = selectedLi.querySelector('.description');
+            if (description) {
+                description.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
