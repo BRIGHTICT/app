@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> কম্পিউটার শট প্রশ্ন ও উত্তর ইনপুট</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #output {
+            background: #ffffff;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: left;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>প্রশ্ন ও উত্তর ইনপুট পেজ</h1>
+
+    <form id="questionForm">
+        <input type="text" id="questionInput" placeholder="প্রশ্ন লিখুন" required><br>
+        <textarea id="explanationInput" placeholder="উত্তর লিখুন" rows="4" required></textarea><br>
+        <button type="button" onclick="addQuestion()">প্রশ্ন যুক্ত করুন</button>
+        <button type="button" onclick="resetQuestions()">রিসেট করুন</button>
+        <button type="button" onclick="copyToClipboard()">কপি করুন</button>
+    </form>
+
+    <div id="output">[{ "question": "প্রশ্ন যুক্ত করুন", "explanation": "আপনার উত্তর এখানে দেখা যাবে" }]</div>
+
+    <script>
+        let questionList = [];
+
+        function addQuestion() {
+            const question = document.getElementById('questionInput').value.trim();
+            const explanation = document.getElementById('explanationInput').value.trim();
+
+            if (question && explanation) {
+                questionList.push({ question, explanation });
+                document.getElementById('questionInput').value = "";
+                document.getElementById('explanationInput').value = "";
+                updateOutput();
+            } else {
+                alert("প্রশ্ন এবং উত্তর পূরণ করুন!");
+            }
+        }
+
+        function resetQuestions() {
+            if (confirm("আপনি কি সত্যিই সব প্রশ্ন মুছতে চান?")) {
+                questionList = [];
+                updateOutput();
+            }
+        }
+
+        function updateOutput() {
+            document.getElementById('output').textContent = JSON.stringify(questionList, null, 4);
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert("কোড কপি করা হয়েছে!");
+            }).catch(err => {
+                alert("কপি করতে সমস্যা হয়েছে!");
+            });
+        }
+    </script>
+
+</body>
+</html>
